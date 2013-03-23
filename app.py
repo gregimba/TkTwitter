@@ -1,19 +1,14 @@
-import toml
+from config import OAUTH_SECRET, OAUTH_TOKEN,CONSUMER_KEY,CONSUMER_SECRET
 from twitter import *
 from Tkinter import *
 
-config = open("config.toml", "r")
-config = toml.loads(config.read())
+global t
 
-OAUTH_TOKEN = config["OAUTH_TOKEN"]
-OAUTH_SECRET = config["OAUTH_SECRET"]
-CONSUMER_KEY = config["CONSUMER_KEY"]
-CONSUMER_SECRET = config["CONSUMER_SECRET"]
 
-twitter = Twitter(
-              auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET,
-	                       CONSUMER_KEY, CONSUMER_SECRET)
-	           )
+t = Twitter(
+    auth=OAuth(OAUTH_TOKEN, OAUTH_SECRET,
+               CONSUMER_KEY, CONSUMER_SECRET)
+)
 
 class App:
  
@@ -22,18 +17,21 @@ class App:
         frame = Frame(master)
         frame.pack()
 
+        #Tweet Entry
         tweet = StringVar()
         self.statusEntry = Entry(frame, textvariable=tweet)
         self.statusEntry.pack()
- 
+
+        #Quit
         self.button = Button(frame, text="QUIT", fg="red", command=frame.quit)
         self.button.pack(side=LEFT)
- 
+
+        #Post Tweet
         self.Tweet = Button(frame, text="Tweet", command=self.tweet)
         self.Tweet.pack(side=LEFT)
  
     def tweet(self):
-        twitter.statuses.update(status=tweet.get())
+        t.statuses.update(status=tweet.get())
 
 root = Tk()
 app = App(root)
