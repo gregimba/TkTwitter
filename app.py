@@ -32,6 +32,7 @@ class App:
  
     def tweet(self):
         t.statuses.update(status=tweet.get())
+        tweet.set('')
 
 root = Tk()
 app = App(root)
